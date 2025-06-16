@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf96d3b6b84f1a46a6e00593d9a4a23, type: 3}
+  m_Name: Manul Toolbar Button List Set
+  m_EditorClassIdentifier: 
+  intPrefName: ListSet01
+  popupWidth: 18
+  listEntries:
+  - setName: F1
+    setSO: {fileID: 11400000, guid: 584998124678a604c828f5041f742ab4, type: 2}
+  useOnChangeValueActions: 0
+  onChangeValueActions: []
