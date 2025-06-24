@@ -120,7 +120,11 @@ namespace EditorTools
 
         private void CreateSOInstance(Type type)
         {
-            // 确保Resources文件夹存在
+            // 确保 Resources 和 SO 文件夹都存在
+            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+            {
+                AssetDatabase.CreateFolder("Assets", "Resources");
+            }
             if (!AssetDatabase.IsValidFolder("Assets/Resources/SO"))
             {
                 AssetDatabase.CreateFolder("Assets/Resources", "SO");
@@ -144,5 +148,5 @@ namespace EditorTools
             RefreshData();
         }
     }
-    
+
 }
