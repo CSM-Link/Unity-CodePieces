@@ -9,8 +9,8 @@ namespace EditorTools
     public class SingletonSOEditorWindow : EditorWindow
     {
         private Vector2 scrollPosition;
-        private List<Type> singletonTypes = new();
-        private Dictionary<Type, ScriptableObject> existingInstances = new();
+        private static List<Type> singletonTypes = new();
+        private static Dictionary<Type, ScriptableObject> existingInstances = new();
 
         [MenuItem("Tools/SingletonSO 管理器")]
         public static void ShowWindow()
@@ -19,6 +19,7 @@ namespace EditorTools
             window.titleContent = new GUIContent("SingletonSO 管理器");
             window.minSize = new Vector2(400, 300);
             window.Show();
+            RefreshData();
         }
 
         private void OnEnable()
@@ -26,7 +27,7 @@ namespace EditorTools
             RefreshData();
         }
 
-        private void RefreshData()
+        private static void RefreshData()
         {
             // 获取所有 SingletonSO 的子类
             singletonTypes = AppDomain.CurrentDomain.GetAssemblies()
@@ -37,15 +38,23 @@ namespace EditorTools
 
             // 查找现有实例
             existingInstances.Clear();
-            var allInstances = Resources.FindObjectsOfTypeAll<ScriptableObject>()
-                .Where(so => so is SingletonSO);
 
-            foreach (var instance in allInstances)
+            string soFolder = "Assets";
+            if (AssetDatabase.IsValidFolder(soFolder))
             {
-                var type = instance.GetType();
-                if (!existingInstances.ContainsKey(type))
+                var guids = AssetDatabase.FindAssets("t:SingletonSO", new[] { soFolder });
+                foreach (var guid in guids)
                 {
-                    existingInstances.Add(type, instance);
+                    string path = AssetDatabase.GUIDToAssetPath(guid);
+                    var so = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+                    if (so != null)
+                    {
+                        var type = so.GetType();
+                        if (!existingInstances.ContainsKey(type))
+                        {
+                            existingInstances.Add(type, so);
+                        }
+                    }
                 }
             }
         }
